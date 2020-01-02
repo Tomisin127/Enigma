@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://SCRIPTS/right_slicer.gd" type="Script" id=1]
+[ext_resource path="res://LETTERS/white_box.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 53, 9.2545 )
+
+[node name="right_slicer" type="StaticBody2D"]
+position = Vector2( 270, 10 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+velocity = Vector2( 300, 0 )
+
+[node name="right_slicer_area" type="Area2D" parent="." groups=[
+"right_slicer",
+]]
+
+[node name="collision" type="CollisionShape2D" parent="right_slicer_area"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="right_slicer_area"]
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 2 )
+
+[node name="collision2" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

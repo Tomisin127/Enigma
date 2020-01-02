@@ -1,0 +1,119 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://SCRIPTS/level1.gd" type="Script" id=1]
+[ext_resource path="res://LETTERS/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://LETTERS/level1_hud.tscn" type="PackedScene" id=3]
+[ext_resource path="res://FONT/nyala.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://MOTIVATION/ramdas.png" type="Texture" id=5]
+[ext_resource path="res://MOTIVATION/ramdas_audio.wav" type="AudioStream" id=6]
+
+[sub_resource type="Animation" id=1]
+resource_name = "goal1"
+tracks/0/type = "value"
+tracks/0/path = NodePath("reach25seconds:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("reach25seconds:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 48, 180 ), Vector2( 48, 150 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("notification:playback_speed")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.25 ]
+}
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 4 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "ramdas_anim"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ramdas:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="level1" type="Node"]
+script = ExtResource( 1 )
+
+[node name="player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 100, 350 )
+
+[node name="spawn_time" type="Timer" parent="."]
+wait_time = 7.0
+autostart = true
+
+[node name="action_rotor_container" type="Node" parent="."]
+
+[node name="level1_hud" parent="." instance=ExtResource( 3 )]
+
+[node name="notification" type="AnimationPlayer" parent="."]
+anims/goal1 = SubResource( 1 )
+
+[node name="reach25seconds" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 48.0
+margin_top = 180.0
+margin_right = 175.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 2 )
+text = "Achievement:
+reached 25 seconds!!"
+
+[node name="motivation" type="Node" parent="."]
+
+[node name="ramdas" type="TextureRect" parent="motivation"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 10.0
+margin_top = 170.0
+margin_right = 627.0
+margin_bottom = 257.0
+rect_scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 5 )
+
+[node name="ramdas_audio" type="AudioStreamPlayer2D" parent="motivation"]
+stream = ExtResource( 6 )
+
+[node name="anim" type="AnimationPlayer" parent="motivation"]
+playback_speed = 0.3
+anims/ramdas_anim = SubResource( 3 )
+
+[connection signal="tree_entered" from="." to="." method="_on_level1_tree_entered"]
+[connection signal="timeout" from="spawn_time" to="." method="_on_spawn_time_timeout"]
+[connection signal="change_in_action_rotor_state" from="level1_hud/hud/pause_control" to="." method="_on_pause_control_change_in_action_rotor_state"]
+[connection signal="pressed" from="level1_hud/hud/pause_control/save_game" to="." method="_on_save_game_pressed"]
+[connection signal="finished" from="motivation/ramdas_audio" to="." method="_on_ramdas_audio_finished"]
+[connection signal="animation_finished" from="motivation/anim" to="." method="_on_anim_animation_finished"]
+
+[editable path="level1_hud"]

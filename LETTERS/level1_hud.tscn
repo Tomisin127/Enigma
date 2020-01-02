@@ -1,0 +1,219 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://SCRIPTS/level1_hud.gd" type="Script" id=1]
+[ext_resource path="res://LETTERS/gameover.tscn" type="PackedScene" id=2]
+[ext_resource path="res://LETTERS/pause.png" type="Texture" id=3]
+[ext_resource path="res://FONT/nyala.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://SCRIPTS/pause_control.gd" type="Script" id=5]
+[ext_resource path="res://LETTERS/resume.png" type="Texture" id=6]
+[ext_resource path="res://LETTERS/restart.png" type="Texture" id=7]
+[ext_resource path="res://LETTERS/save_n_exit.png" type="Texture" id=8]
+[ext_resource path="res://LETTERS/ads.png" type="Texture" id=9]
+
+[sub_resource type="Animation" id=1]
+resource_name = "pause_slide"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 188, 2 ), Vector2( 188, -48 ) ]
+}
+
+[sub_resource type="DynamicFont" id=2]
+size = 12
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 12
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 4 )
+
+[sub_resource type="Animation" id=6]
+tracks/0/type = "value"
+tracks/0/path = NodePath("pause_screen:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 385, 120 ), Vector2( -5, 120 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("pause_screen:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.301961, 0.541176, 0.956863, 0 ), Color( 0.301961, 0.541176, 0.956863, 0 ), Color( 0.301961, 0.541176, 0.956863, 0.529412 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("pause_resume:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 60, -110 ), Vector2( 60, 130 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("pause_restart:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -180, 170 ), Vector2( 60, 170 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("pause_ads:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 60, 440 ), Vector2( 60, 250 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("save_game:position")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 290, 210 ), Vector2( 60, 210 ) ]
+}
+
+[node name="level1_hud" type="Node"]
+script = ExtResource( 1 )
+
+[node name="hud" type="CanvasLayer" parent="."]
+pause_mode = 2
+
+[node name="gameover" parent="hud" instance=ExtResource( 2 )]
+pause_mode = 2
+editor/display_folded = true
+
+[node name="pause_btn" type="TouchScreenButton" parent="hud"]
+pause_mode = 2
+editor/display_folded = true
+position = Vector2( 188, 2 )
+scale = Vector2( 0.03, 0.03 )
+normal = ExtResource( 3 )
+
+[node name="slider" type="AnimationPlayer" parent="hud/pause_btn"]
+playback_speed = 10.0
+anims/pause_slide = SubResource( 1 )
+
+[node name="score" type="Label" parent="hud"]
+margin_left = 1.0
+margin_right = 33.0
+margin_bottom = 12.0
+custom_fonts/font = SubResource( 2 )
+text = "SCORE"
+
+[node name="player_score" type="Label" parent="hud"]
+margin_left = 38.0
+margin_top = -1.0
+margin_right = 78.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 3 )
+
+[node name="timer" type="Label" parent="hud"]
+margin_top = 14.0
+margin_right = 30.0
+margin_bottom = 26.0
+custom_fonts/font = SubResource( 4 )
+text = "TIMER"
+
+[node name="time_label" type="Label" parent="hud"]
+margin_left = 34.0
+margin_top = 12.0
+margin_right = 74.0
+margin_bottom = 27.0
+custom_fonts/font = SubResource( 5 )
+
+[node name="pause_control" type="Control" parent="hud"]
+pause_mode = 2
+margin_right = 210.0
+margin_bottom = 376.0
+script = ExtResource( 5 )
+
+[node name="pause_screen" type="Panel" parent="hud/pause_control"]
+modulate = Color( 0.301961, 0.541176, 0.956863, 0 )
+margin_left = 385.0
+margin_top = 120.0
+margin_right = 605.0
+margin_bottom = 288.0
+
+[node name="pause_resume" type="TouchScreenButton" parent="hud/pause_control"]
+position = Vector2( 60, -110 )
+scale = Vector2( 0.2, 0.2 )
+normal = ExtResource( 6 )
+
+[node name="pause_restart" type="TouchScreenButton" parent="hud/pause_control"]
+pause_mode = 2
+position = Vector2( -180, 170 )
+scale = Vector2( 0.2, 0.2 )
+normal = ExtResource( 7 )
+
+[node name="save_game" type="TouchScreenButton" parent="hud/pause_control"]
+pause_mode = 2
+position = Vector2( 290, 210 )
+scale = Vector2( 0.2, 0.2 )
+normal = ExtResource( 8 )
+
+[node name="pause_ads" type="TouchScreenButton" parent="hud/pause_control"]
+position = Vector2( 60, 440 )
+scale = Vector2( 0.2, 0.2 )
+normal = ExtResource( 9 )
+
+[node name="pause_anim" type="AnimationPlayer" parent="hud/pause_control"]
+pause_mode = 2
+playback_speed = 2.0
+anims/pause_anim = SubResource( 6 )
+
+[node name="score_tween" type="Tween" parent="hud"]
+repeat = true
+playback/repeat = true
+
+[node name="timer_tween" type="Tween" parent="hud"]
+repeat = true
+playback/repeat = true
+
+[connection signal="pressed" from="hud/pause_btn" to="." method="_on_pause_btn_pressed"]
+[connection signal="pressed" from="hud/pause_control/pause_resume" to="hud/pause_control" method="_on_pause_resume_pressed"]
+[connection signal="pressed" from="hud/pause_control/pause_restart" to="hud/pause_control" method="_on_pause_restart_pressed"]
+[connection signal="pressed" from="hud/pause_control/save_game" to="." method="_on_save_game_pressed"]
+[connection signal="animation_finished" from="hud/pause_control/pause_anim" to="hud" method="_on_pause_anim_animation_finished"]
+[connection signal="tween_completed" from="hud/score_tween" to="." method="_on_score_tween_tween_completed"]
+[connection signal="tween_completed" from="hud/timer_tween" to="." method="_on_timer_tween_tween_completed"]

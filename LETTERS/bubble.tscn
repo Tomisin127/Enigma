@@ -1,0 +1,106 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://SCRIPTS/bubble.gd" type="Script" id=1]
+[ext_resource path="res://LETTERS/white_dot.png" type="Texture" id=2]
+
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 13.4012
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 12.4335
+
+[sub_resource type="Animation" id=4]
+resource_name = "fade"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("bubble1/Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.5, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.8, 1.9, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0.07, 0.07 ), Vector2( 0.2, 0.2 ), Vector2( 0.17, 0.17 ), Vector2( 0.2, 0.2 ), Vector2( 0.18, 0.18 ), Vector2( 0.2, 0.2 ), Vector2( 0.19, 0.19 ), Vector2( 0.2, 0.2 ), Vector2( 0.04, 0.2 ), Vector2( 0.04, 0.04 ), Vector2( 1e-005, 1e-005 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("bubble2/Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.07, 0.07 ), Vector2( 0.07, 0.3 ), Vector2( 0.03, 0.3 ), Vector2( 0.03, 0.05 ), Vector2( 1e-005, 1e-005 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "life"
+tracks/0/type = "value"
+tracks/0/path = NodePath("bubble2/Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="bubble" type="Node2D"]
+position = Vector2( 100, 280 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="bubble1" type="StaticBody2D" parent="."]
+position = Vector2( 0, 70 )
+constant_linear_velocity = Vector2( 0, -10 )
+physics_material_override = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="bubble1"]
+scale = Vector2( 0.07, 0.07 )
+texture = ExtResource( 2 )
+
+[node name="collision" type="CollisionShape2D" parent="bubble1"]
+shape = SubResource( 2 )
+
+[node name="bubble2" type="RigidBody2D" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="bubble2_area" type="Area2D" parent="bubble2"]
+editor/display_folded = true
+
+[node name="collision" type="CollisionShape2D" parent="bubble2/bubble2_area"]
+shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="bubble2"]
+scale = Vector2( 0.07, 0.07 )
+texture = ExtResource( 2 )
+
+[node name="collision" type="CollisionShape2D" parent="bubble2"]
+shape = SubResource( 3 )
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/fade = SubResource( 4 )
+anims/life = SubResource( 5 )
+
+[node name="escape_timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="area_entered" from="bubble2/bubble2_area" to="." method="_on_bubble2_area_area_entered"]

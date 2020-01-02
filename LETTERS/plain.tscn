@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://SCRIPTS/plain.gd" type="Script" id=1]
+[ext_resource path="res://LETTERS/white_box.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 54, 10 )
+
+[node name="plain" type="StaticBody2D" groups=[
+"plain",
+]]
+position = Vector2( 100, -10 )
+script = ExtResource( 1 )
+velocity = Vector2( 0, 100 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 2 )
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2( -5.96046e-007, 0.999999 )
+shape = SubResource( 1 )
+

@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://SCRIPTS/settings.gd" type="Script" id=1]
+[ext_resource path="res://FONT/nyala.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://LETTERS/music.png" type="Texture" id=3]
+[ext_resource path="res://LETTERS/exit.png" type="Texture" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 2 )
+
+[node name="settings" type="Node" groups=[
+"settings",
+]]
+script = ExtResource( 1 )
+
+[node name="Control" type="Control" parent="."]
+margin_right = 211.0
+margin_bottom = 377.0
+
+[node name="music_box" type="CheckBox" parent="Control"]
+margin_left = 50.0
+margin_right = 186.0
+margin_bottom = 73.0
+custom_fonts/font = SubResource( 1 )
+pressed = true
+text = "music"
+icon = ExtResource( 3 )
+
+[node name="username" type="Label" parent="Control"]
+margin_left = 50.0
+margin_top = 70.0
+margin_right = 110.0
+margin_bottom = 85.0
+custom_fonts/font = SubResource( 2 )
+text = "Username :"
+
+[node name="name" type="Label" parent="Control/username"]
+margin_left = 77.0
+margin_top = 3.0
+margin_right = 117.0
+margin_bottom = 17.0
+custom_fonts/font = SubResource( 3 )
+text = "
+"
+
+[node name="field" type="LineEdit" parent="Control/username"]
+margin_left = 8.0
+margin_top = 30.0
+margin_right = 116.0
+margin_bottom = 54.0
+max_length = 10
+
+[node name="back" type="TouchScreenButton" parent="."]
+position = Vector2( 9.53674e-007, 350 )
+scale = Vector2( 0.2, 0.2 )
+normal = ExtResource( 4 )
+
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]
